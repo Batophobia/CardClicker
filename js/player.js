@@ -1,15 +1,15 @@
 var player = {
 	init : function(){
-		for(var i=0;i<50;i++){
-			this.deck.push(rndm(0,cards.list.length));
-		}
+		//for(var i=0;i<50;i++){
+		//	this.deck.push(rndm(0,cards.list.length));
+		//}
 	},
 	
 	cardList: [ ],
+	decks: [ ], // Saved decks
 	deck: [ ], // default 45-60 cards
-	hand: [ ], // default <= 7
-	maxHandSize: 7,
-	bps: 1,
+	hand: [ ], // default <= 5
+	maxHandSize: 5,
 	
 	draw: function(){
 		if(this.hand.length >= this.maxHandSize){
@@ -22,7 +22,7 @@ var player = {
 		var strCard='<div class="card '+crdDetails.kind+'" id="plr'+(this.hand.length-1)+'">';
 			strCard=strCard+'<div class="cardTops">'+crdDetails.cost+': '+crdDetails.name+'</div>';
 			strCard=strCard+'<div class="cardBody"><span class="crdSpecial">'+crdDetails.spec+'</span><div class="cardDesc">'+crdDetails.desc+'</div></div>';
-			if(strCard.kind=="unit"){
+			if(crdDetails.kind=="unit"){
 				strCard=strCard+'<div class="cardSubs">'+crdDetails.type+' - '+crdDetails.rare+'</div>';
 				strCard=strCard+'<div class="cardPowr">'+crdDetails.att+' | '+crdDetails.def+'</div>';
 			}else{
@@ -41,7 +41,7 @@ var player = {
 		earth: 0,
 		water: 0,
 		fire: 0,
-		kurenc: 0
+		kurenc: 1000
 	},
 	incr: {
 		air: 0,
@@ -58,11 +58,16 @@ var player = {
 	},
 	
 	tick: function(){
-		this.total.kurenc+=this.incr.kurenc;
-		this.total.air+=this.incr.air;
-		this.total.earth+=this.incr.earth;
-		this.total.water+=this.incr.water;
-		this.total.fire+=this.incr.fire;
+		if(game.blnInGame){
+			if(main.counter%500==0)
+				this.total.kurenc+=this.incr.kurenc;
+		}else{
+			this.total.kurenc+=this.incr.kurenc;
+			this.total.air+=this.incr.air;
+			this.total.earth+=this.incr.earth;
+			this.total.water+=this.incr.water;
+			this.total.fire+=this.incr.fire;
+		}
 		
 		$(".kurenc").html("&#6107;"+this.total.kurenc);
 		$("#ttlAir").html("Total<br/>Air<br/>"+this.total.air);

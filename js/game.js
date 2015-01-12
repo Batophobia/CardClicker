@@ -8,14 +8,21 @@ var game = {
 		player.deck=this.shuffle(player.deck);
 		for(var i=0;i<player.maxHandSize;i++)
 			player.draw();
+		this.turn("player");
 	},
 	blnInGame: false,
 	
 	turn: function(who){
-		if(who=="player")
-			player.pool.base+=player.bps;
-			$("#numForce").html("Force<br/>"+player.pool.base);
+		if(who=="player"){
+			for(var elem in player.pool){
+				if(player.total[elem]>0){
+					player.pool[elem]++;
+					player.total[elem]--;
+				}
+				$("#num"+capital(elem)).html(capital(elem)+":<br/>"+player.pool[elem]);
+			}
 			player.draw();
+		}
 	},
 	
 	play: function(card){

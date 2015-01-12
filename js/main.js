@@ -45,6 +45,11 @@ Object.size = function(obj) {
     return size;
 };
 
+function capital(string)
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function rndm(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
